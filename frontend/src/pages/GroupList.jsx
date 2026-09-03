@@ -27,7 +27,7 @@ export default function GroupList() {
       <nav className="topbar">
         <Link to="/" className="topbar-logo">All<span>Splits</span></Link>
       </nav>
-
+      
       <div className="page">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
           <h1>My Groups</h1>

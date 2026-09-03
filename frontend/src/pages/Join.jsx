@@ -77,7 +77,7 @@ useEffect(() => {
   return (
     <>
       <nav className="topbar">
-        <Link to="/" className="topbar-logo">Split<span>-It</span></Link>
+        <Link to="/" className="topbar-logo">All<span>Splits</span></Link>
         {group.is_closed && <span className="badge badge-slate" style={{ marginLeft: 'auto' }}>Closed</span>}
       </nav>
 
