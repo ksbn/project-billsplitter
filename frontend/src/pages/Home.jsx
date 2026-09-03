@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { FilePlus2, Link2, CheckSquare, Receipt, FolderOpen, Heart } from 'lucide-react'
 import { createGroup, saveGroupToken } from '../utils/api'
+import { IconBadge } from './IconBadge'
 
 export default function Home() {
   const navigate = useNavigate()
@@ -28,10 +30,26 @@ export default function Home() {
   }
 
   const steps = [
-    { icon: '📝', text: 'Create a group and add the dishes from the menu' },
-    { icon: '🔗', text: 'Share a unique link with each person' },
-    { icon: '☑️', text: 'Everyone ticks off what they’ve ordered' },
-    { icon: '🧾', text: 'See the final breakdown straight away, including tip' },
+    {
+      icon: FilePlus2,
+      title: 'Create a group',
+      text: 'Add the dishes from the menu, with prices.',
+    },
+    {
+      icon: Link2,
+      title: 'Share the link',
+      text: 'Send a unique link to each person in the group.',
+    },
+    {
+      icon: CheckSquare,
+      title: 'Everyone ticks their order',
+      text: 'No app, no login — just tap what they had.',
+    },
+    {
+      icon: Receipt,
+      title: 'Get the breakdown',
+      text: 'See exactly who owes what, tip included.',
+    },
   ]
 
   return (
@@ -40,10 +58,10 @@ export default function Home() {
         <span className="topbar-logo">All<span>Splits</span></span>
         <div style={{ marginLeft: 'auto', display: 'flex', gap: '.5rem' }}>
           <Link to="/groups" className="btn btn-ghost btn-sm">
-            📂 My Groups
+            <FolderOpen size={15} /> My Groups
           </Link>
           <Link to="/donate" className="btn btn-ghost btn-sm">
-            💜 Donate
+            <Heart size={15} /> Donate
           </Link>
         </div>
       </nav>
@@ -84,16 +102,25 @@ export default function Home() {
           </form>
         </div>
 
-        <div style={{ maxWidth: 480, margin: '3rem auto 0', textAlign: 'center' }}>
-          <p className="section-label">How it works</p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '.75rem', textAlign: 'left' }}>
-            {steps.map((step) => (
-              <div 
-                key={step.text} 
-                style={{ display: 'flex', gap: '.75rem', alignItems: 'center', padding: '.65rem 0', borderBottom: '1px solid #E2E8F0' }}
+        <div style={{ maxWidth: 480, margin: '3rem auto 0' }}>
+          <p className="section-label" style={{ textAlign: 'center' }}>How it works</p>
+          <div className="card" style={{ padding: '.5rem 1.5rem' }}>
+            {steps.map((step, i) => (
+              <div
+                key={step.title}
+                style={{
+                  display: 'flex',
+                  gap: '.85rem',
+                  alignItems: 'flex-start',
+                  padding: '1rem 0',
+                  borderBottom: i < steps.length - 1 ? '1px solid var(--accent-lt)' : 'none',
+                }}
               >
-                <span style={{ fontSize: '1.25rem' }}>{step.icon}</span>
-                <span style={{ color: 'var(--slate-mid)', fontSize: '.9rem' }}>{step.text}</span>
+                <IconBadge icon={step.icon} />
+                <div>
+                  <p style={{ fontWeight: 600, fontSize: '.92rem', color: 'var(--ink)' }}>{step.title}</p>
+                  <p style={{ color: 'var(--ink-mid)', fontSize: '.85rem', marginTop: '.15rem' }}>{step.text}</p>
+                </div>
               </div>
             ))}
           </div>

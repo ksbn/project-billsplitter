@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { CreditCard, Users, Heart } from 'lucide-react'
 import { getSummary } from '../utils/api'
 import ReceiptPrinter from './ReceiptPrinter'
+import { IconBadge } from './IconBadge'
 
 export default function Summary() {
   const { ownerToken } = useParams()
   const [summary, setSummary] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  
+
   const [isPaid, setIsPaid] = useState(false);
 
   useEffect(() => {
@@ -53,36 +55,27 @@ export default function Summary() {
 
       <div className="page">
         <div className="summary-header">
-          <p style={{ color: '#94A3B8', fontSize: '.85rem', marginBottom: '.5rem', letterSpacing: '.06em', textTransform: 'uppercase' }}>
+          <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '.85rem', marginBottom: '.5rem', letterSpacing: '.06em', textTransform: 'uppercase' }}>
             Cuenta Final
           </p>
           <h2>{summary.group_name}</h2>
           <div className="grand-total">{summary.grand_total.toFixed(2)}€</div>
-          <p style={{ color: '#94A3B8', fontSize: '.9rem' }}>
+          <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '.9rem' }}>
             {summary.tip_percentage > 0 ? `Incluye ${summary.tip_percentage}% de propina` : 'Sin propina'}
             {' · '}{summary.members.length} {summary.members.length === 1 ? 'persona' : 'personas'}
           </p>
         </div>
 
-        {/* 4. Payment Action Button (Visible until paid) */}
+        {/* Payment Action Button (Visible until paid) */}
         {!isPaid ? (
           <div style={{ textAlign: 'center', margin: '1.5rem 0' }}>
-            <button 
-              onClick={handlePayment} 
-              className="btn btn-primary"
-              style={{
-                width: '100%',
-                padding: '14px',
-                fontSize: '1.05rem',
-                fontWeight: 'bold',
-                backgroundColor: 'var(--amber)',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '12px',
-                cursor: 'pointer'
-              }}
+            <button
+              onClick={handlePayment}
+              className="btn btn-primary btn-full"
+              style={{ padding: '14px', fontSize: '1.05rem' }}
             >
-              💳 Pagar y Confirmar Liquidación
+              <CreditCard size={20} />
+              Pagar y Confirmar Liquidación
             </button>
           </div>
         ) : (
@@ -93,7 +86,10 @@ export default function Summary() {
         {summary.members.length === 0
           ? (
             <div className="card">
-              <div className="empty"><div className="empty-icon">🙋</div>Ningún miembro ha pedido todavía.</div>
+              <div className="empty">
+                <div className="empty-icon"><Users size={28} color="var(--ink-lt)" /></div>
+                Ningún miembro ha pedido todavía.
+              </div>
             </div>
           )
           : summary.members.map(m => (
@@ -102,7 +98,7 @@ export default function Summary() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '.65rem' }}>
                   <div style={{
                     width: 36, height: 36, borderRadius: '50%',
-                    background: 'var(--amber-lt)', color: 'var(--amber-dk)',
+                    background: 'var(--accent-lt)', color: 'var(--accent-dk)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontWeight: 700, fontSize: '.9rem'
                   }}>
@@ -115,10 +111,10 @@ export default function Summary() {
 
               <div className="member-bill-body">
                 {m.items.length === 0
-                  ? <p style={{ color: 'var(--slate-lt)', fontSize: '.85rem' }}>Sin pedidos</p>
+                  ? <p style={{ color: 'var(--ink-lt)', fontSize: '.85rem' }}>Sin pedidos</p>
                   : m.items.map((item, i) => (
                     <div key={i} className="bill-line">
-                      <span>{item.name} {item.quantity > 1 && <span style={{ color: 'var(--slate-lt)' }}>× {item.quantity}</span>}</span>
+                      <span>{item.name} {item.quantity > 1 && <span style={{ color: 'var(--ink-lt)' }}>× {item.quantity}</span>}</span>
                       <span>{item.line_total.toFixed(2)}€</span>
                     </div>
                   ))
@@ -129,7 +125,7 @@ export default function Summary() {
                   <span>{m.subtotal.toFixed(2)}€</span>
                 </div>
                 {m.tip_amount > 0 && (
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--slate-mid)', fontSize: '.88rem', marginTop: '.35rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--ink-mid)', fontSize: '.88rem', marginTop: '.35rem' }}>
                     <span>Propina</span>
                     <span>+ {m.tip_amount.toFixed(2)}€</span>
                   </div>
@@ -137,10 +133,10 @@ export default function Summary() {
                 <div style={{
                   display: 'flex', justifyContent: 'space-between',
                   marginTop: '.5rem', paddingTop: '.5rem',
-                  borderTop: '2px solid var(--amber)', fontWeight: 700, fontSize: '1.05rem'
+                  borderTop: '2px solid var(--accent)', fontWeight: 700, fontSize: '1.05rem'
                 }}>
                   <span>Total a pagar</span>
-                  <span style={{ color: 'var(--amber-dk)' }}>{m.total.toFixed(2)}€</span>
+                  <span style={{ color: 'var(--accent-dk)' }}>{m.total.toFixed(2)}€</span>
                 </div>
               </div>
             </div>
@@ -149,7 +145,8 @@ export default function Summary() {
 
         <div style={{ textAlign: 'center', marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '.75rem', alignItems: 'center' }}>
           <Link to="/donate" className="btn btn-primary">
-            💛 Donar a organizaciones solidarias
+            <Heart size={16} fill="currentColor" />
+            Donar a organizaciones solidarias
           </Link>
           <Link to="/" className="btn btn-ghost">Crear nuevo grupo</Link>
         </div>
