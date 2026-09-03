@@ -24,10 +24,6 @@ cd backend
 python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 
-# Set up Postgres then:
-export DATABASE_URL=postgresql://user:pass@localhost:5432/billsplitter
-uvicorn app.main:app --reload
-```
 
 ### Frontend
 
