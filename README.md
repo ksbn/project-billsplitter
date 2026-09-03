@@ -13,11 +13,6 @@ A full-stack bill splitting app. No login required.
 ```bash
 docker-compose up --build
 ```
-
-- Frontend → http://localhost:5173
-- Backend API → http://localhost:8000
-- API Docs → http://localhost:8000/docs
-
 ---
 
 ## Local Development (without Docker)
