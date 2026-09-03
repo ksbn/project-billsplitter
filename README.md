@@ -6,14 +6,7 @@ A full-stack bill splitting app. No login required.
 - **Backend**: Python · FastAPI · PostgreSQL · SQLAlchemy
 - **Frontend**: React · Vite · Plain CSS
 
----
 
-## Quick Start (Docker)
-
-```bash
-docker-compose up --build
-```
----
 
 ## Local Development (without Docker)
 
