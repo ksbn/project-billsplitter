@@ -1,7 +1,12 @@
-const BASE = '/api'
+// Pull backend URL from Vite environment variable with a local fallback
+const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/+$/, '')
+const BASE = `${API_URL}/api`
 
 async function request(path, options = {}) {
-  const res = await fetch(`${BASE}${path}`, {
+  // Ensure path starts with a single leading slash
+  const formattedPath = path.startsWith('/') ? path : `/${path}`
+
+  const res = await fetch(`${BASE}${formattedPath}`, {
     headers: { 'Content-Type': 'application/json', ...options.headers },
     ...options,
   })
