@@ -6,23 +6,23 @@ from app.api import groups, members, menu_items, selections
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="BillSplitter API", version="1.0.0")
+app = FastAPI(title="AllSplits API", version="1.0.0")
 
 ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:3000",
     "http://127.0.0.1:5173",
+    "https://project-billsplitter.vercel.app"
 ]
 
-FRONTEND_URL = os.getenv("https://vercel.com/ksbns-projects/project-billsplitter/wbQkk4a7cms5ee5jM8chRghyPqfN")
+FRONTEND_URL = os.getenv("FRONTEND_URL")
 if FRONTEND_URL:
     ALLOWED_ORIGINS.append(FRONTEND_URL.rstrip("/"))
 
-allow_all = os.getenv("ENVIRONMENT") != "production"
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"] if allow_all else ALLOWED_ORIGINS,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_origin_regex=r"https://project-billsplitter.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -36,7 +36,7 @@ app.include_router(selections.router, prefix="/api/selections", tags=["selection
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to BillSplitter API", "docs": "/docs"}
+    return {"message": "Welcome to AllSplits API", "docs": "/docs"}
 
 @app.get("/health")
 def health_check():
